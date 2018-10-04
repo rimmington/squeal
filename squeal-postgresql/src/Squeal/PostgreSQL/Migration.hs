@@ -77,7 +77,7 @@ let
 :}
 
 >>> :{
-withConnection "host=localhost port=5432 dbname=exampledb" $
+withConnection "dbname=exampledb" $
   manipulate (UnsafeManipulation "SET client_min_messages TO WARNING;")
     -- suppress notices
   & pqThen (migrateUp migrations)

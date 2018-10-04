@@ -1,3 +1,6 @@
 resolver: nightly-2018-09-03
 packages:
 - squeal-postgresql
+
+nix:
+  packages: [ postgresql100 ]

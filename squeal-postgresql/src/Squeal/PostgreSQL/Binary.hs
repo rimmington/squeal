@@ -39,7 +39,7 @@ the input and output should be equal.
 
 >>> let input = Row 2 "hi" (Just True)
 >>> :{
-void . withConnection "host=localhost port=5432 dbname=exampledb" $ do
+void . withConnection "dbname=exampledb" $ do
   result <- runQueryParams roundTrip input
   Just output <- firstRow result
   liftBase . print $ input == output
@@ -78,7 +78,7 @@ let
 >>> :set -XOverloadedLists
 >>> let input = Row [1,2] (Just 1,Nothing) ((1,2),(3,4),(5,6))
 >>> :{
-void . withConnection "host=localhost port=5432 dbname=exampledb" $ do
+void . withConnection "dbname=exampledb" $ do
   result <- runQueryParams roundTrip input
   Just output <- firstRow result
   liftBase . print $ input == output
@@ -170,7 +170,7 @@ let
     Just output <- firstRow result
     liftBase . print $ input == output
 in
-  void . withConnection "host=localhost port=5432 dbname=exampledb" $
+  void . withConnection "dbname=exampledb" $
     define setup
     & pqThen session
     & pqThen (define teardown)
@@ -582,7 +582,7 @@ instance {-# OVERLAPPING #-} FromArray array y
       Decoding.dimensionArray Vector.replicateM (fromArray @array @y)
 instance {-# OVERLAPPING #-} FromArray array y
   => FromArray ('Null ('PGvararray array)) (Maybe (Vector y)) where
-    fromArray = Just <$> 
+    fromArray = Just <$>
       Decoding.dimensionArray Vector.replicateM (fromArray @array @y)
 instance {-# OVERLAPPING #-}
   ( FromArray array y
@@ -659,4 +659,4 @@ replicateMN
   :: forall x xs m. (All ((~) x) xs, Monad m, SListI xs)
   => m x -> m (NP I xs)
 replicateMN mx = hsequence' $
-  hcpure (Proxy :: Proxy ((~) x)) (Comp (I <$> mx)) 
+  hcpure (Proxy :: Proxy ((~) x)) (Comp (I <$> mx))

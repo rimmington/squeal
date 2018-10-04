@@ -93,7 +93,7 @@ dropDB = void . withConnection connectionString $
   migrateDown $ single migration
 
 connectionString :: Char8.ByteString
-connectionString = "host=localhost port=5432 dbname=exampledb"
+connectionString = "dbname=exampledb"
 
 testUser :: User
 testUser = User "TestUser" Nothing []
